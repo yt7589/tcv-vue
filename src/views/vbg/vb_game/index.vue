@@ -1,21 +1,21 @@
 <template>
-  <div style="padding:30px;">
-    <p>车辆品牌小游戏</p>
+  <div style="padding:10px;">
     <p>第{{ idx + 1 }}题，共{{ total }}题</p>
     <img :src="imgUrl">
     <br>
     <div>
       <el-radio-group v-model="chooseId" @change="changeHandler">
-        <el-radio class="radio" :label="optAId">A. {{ optAMsg }}；</el-radio><br><br>
-        <el-radio class="radio" :label="optBId">B. {{ optBMsg }}；</el-radio><br><br>
-        <el-radio class="radio" :label="optCId">C. {{ optCMsg }}；</el-radio><br><br>
-        <el-radio class="radio" :label="optDId">D. {{ optDMsg }}；</el-radio><br><br>
+        <el-radio class="radio" style="height: 25px;" :label="optAId">A. {{ optAMsg }}；</el-radio><br><br>
+        <el-radio class="radio" style="height: 25px;" :label="optBId">B. {{ optBMsg }}；</el-radio><br><br>
+        <el-radio class="radio" style="height: 25px;" :label="optCId">C. {{ optCMsg }}；</el-radio><br><br>
+        <el-radio class="radio" style="height: 25px;" :label="optDId">D. {{ optDMsg }}；</el-radio><br><br>
       </el-radio-group>
-    </div>
+    </div><br>
     <button @click="prevQuestion">上一题</button>&nbsp;
-    <button @click="nextQuestion">下一题</button>&nbsp;
-    <button @click="submitSurvey">交卷</button><br>
-    成绩：{{ score }}; 正确答案：{{ answer }}
+    <button @click="nextQuestion">下一题</button>&nbsp;<br><br>
+    成绩：{{ score }}; 正确答案：{{ answer }}<br><br>
+    <button v-show="showExercise" @click="doExercise">练习</button>&nbsp;
+    <button v-show="showExam" @click="submitSurvey">交卷</button>
   </div>
 </template>
 
@@ -42,7 +42,9 @@ export default {
       optDId: '',
       optDMsg: '',
       answer: '',
-      isFinished: false
+      isFinished: false,
+      showExercise: true,
+      showExam: true
     }
   },
   created() {
@@ -104,6 +106,8 @@ export default {
       this.displayQuestion()
     },
     submitSurvey() {
+      this.showExercise = false
+      this.showExam = false
       this.isFinished = true
       let cnt = 0
       // 判分
@@ -113,6 +117,12 @@ export default {
         }
       }
       this.score = cnt / this.total * 100
+      this.displayQuestion()
+    },
+    doExercise() {
+      this.showExercise = false
+      this.showExam = false
+      this.isFinished = true
       this.displayQuestion()
     }
   }
