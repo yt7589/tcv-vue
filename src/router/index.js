@@ -10,6 +10,7 @@ import Layout from '@/layout'
 import brandDbRouter from './modules/brand_db'
 import dataManagerRouter from './modules/data_manager'
 import vbgRouter from './modules/vbg'
+import dataImporterRouter from './modules/data_importer'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -106,6 +107,7 @@ export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   brandDbRouter,
   dataManagerRouter,
+  dataImporterRouter,
   vbgRouter,
 
   // 404 page must be placed at the end !!!
