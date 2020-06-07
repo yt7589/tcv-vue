@@ -1,32 +1,14 @@
 <template>
   <div style="padding:30px;">
-    <button @click="getRefreshBmys">实时数据</button><br>
-    <p v-show="showBmys">共有{{ total }}个车型：</p>
-    <el-table
-      :key="name"
-      v-loading="showLoading"
-      :data="bmys"
-      border
-      fit
-      highlight-current-row
-      style="width: 520px;"
-    >
-      <el-table-column label="序号" width="110px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.bmy_id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="车型名称" width="300px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.bmy_name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="数量" width="110px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.bmy_num }}</span>
-        </template>
-      </el-table-column>
-    </el-table>
+    <p>导入公告号与品牌-车型-年款对应关系</p>
+    <p>
+      <ul>
+        <li>公告号：{{ gghNum }}；</li>
+        <li>品牌：{{ brandNum }}；</li>
+        <li>车型：{{ modelNum }}；</li>
+        <li>年款：{{ bmyNum }}；</li>
+      </ul>
+    </p>
   </div>
 </template>
 
@@ -36,43 +18,27 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      total: 0,
-      bmys: null,
-      showBmys: false,
-      showLoading: true
+      gghNum: 1,
+      brandNum: 2,
+      modelNum: 3,
+      bmyNum: 4
     }
   },
   created() {
-    this.getMessage()
+    this.gghToBmyDict()
   },
   methods: {
-    getMessage() {
-      const path = this.app_global.serverBase + 'admin/getBmys?mode=1'
+    gghToBmyDict() {
+      const path = this.app_global.serverBase + 'admin/gghToBmyDict?mode=1'
       console.log(path)
       axios.get(path)
         .then((res) => {
           console.log('mode=1 response')
-          this.showBmys = true
-          this.showLoading = false
-          this.total = res.data.data.total
-          this.bmys = res.data.data.bmys
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error)
-        })
-    },
-    getRefreshBmys() {
-      const path = this.app_global.serverBase + 'admin/getBmys?mode=2'
-      this.showLoading = true
-      this.showBmys = false
-      console.log(path)
-      axios.get(path)
-        .then((res) => {
-          this.showBmys = true
-          this.showLoading = false
-          this.total = res.data.data.total
-          this.bmys = res.data.data.bmys
+          const dataObj = res.data.data
+          this.gghNum = dataObj.ggh_num
+          this.brandNum = dataObj.brand_num
+          this.modelNum = dataObj.model_num
+          this.bmyNum = dataObj.bmy_num
         })
         .catch((error) => {
           // eslint-disable-next-line
