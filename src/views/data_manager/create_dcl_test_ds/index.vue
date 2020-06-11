@@ -1,5 +1,5 @@
 <template>
   <div style="padding:30px;">
-    <p>更新品牌车型年款数据字典</p>
+    <p>生成DCL测试集</p>
   </div>
 </template>
