@@ -9,6 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import brandDbRouter from './modules/brand_db'
 import dataManagerRouter from './modules/data_manager'
+import dataAnnoRouter from './modules/data_anno'
 import vbgRouter from './modules/vbg'
 
 /**
@@ -106,6 +107,7 @@ export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   brandDbRouter,
   dataManagerRouter,
+  dataAnnoRouter,
   vbgRouter,
 
   // 404 page must be placed at the end !!!
