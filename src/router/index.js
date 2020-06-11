@@ -103,16 +103,12 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-  /** when your routing map is too long, you can split it into small modules **/
-  brandDbRouter,
-  dataManagerRouter,
-  dataAnnoRouter,
-  vbgRouter,
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+export const asyncRoutes = []
+asyncRoutes.push(brandDbRouter)
+asyncRoutes.push(dataManagerRouter)
+asyncRoutes.push(dataAnnoRouter)
+asyncRoutes.push(vbgRouter)
+asyncRoutes.push({ path: '*', redirect: '/404', hidden: true })
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
