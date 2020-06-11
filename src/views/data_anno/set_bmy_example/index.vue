@@ -1,7 +1,7 @@
 <template>
   <div style="padding:5px;">
     <p>
-      {{ idx+1 }} / {{ total }} &nbsp; : &nbsp; {{ bmys[idx].bmy_name }}&nbsp;
+      {{ idx+1 }} / {{ total }} &nbsp; : &nbsp; {{ bmys==null ? '' : bmys[idx].bmy_name }}&nbsp;
       <button @click="prevBmy">上一款</button>&nbsp;
       <button @click="nextBmy">下一款</button>&nbsp;
     </p>
@@ -66,21 +66,24 @@ export default {
     },
     getBmyExampleVehicleImageId() {
       const path = this.app_global.serverBase + 'admin/getBmyExampleVehicleImageId?bmyId=' + this.bmys[this.idx].bmy_id
+      console.log(path)
       axios.get(path)
         .then((res) => {
           console.log('example:' + JSON.stringify(res.data.data) + '!')
           this.exampleVehicleImageId = res.data.data.vehicle_image_id
           this.exampleVehicleImageUrl = this.app_global.serverBase + 'displayVehicleImage/' + this.exampleVehicleImageId
-          this.getBmyNextVehicleImageId()
+          this.getBmyCurrentVehicleImageId(1)
         })
         .catch((error) => {
           // eslint-disable-next-line
           console.error(error)
         })
     },
-    getBmyNextVehicleImageId() {
-      const path = this.app_global.serverBase + 'admin/getBmyNextVehicleImageId?prevVehicleImageId=' +
-            this.prevVehicleImageId + '&bmyId=' + this.bmys[this.idx].bmy_id
+    getBmyCurrentVehicleImageId(mode) {
+      // mode=1为下一个
+      const path = this.app_global.serverBase + 'admin/getBmyCurrentVehicleImageId?prevVehicleImageId=' +
+            this.vehicleImageId + '&bmyId=' + this.bmys[this.idx].bmy_id + '&mode=' + mode
+      console.log('current: ' + path + '!')
       axios.get(path)
         .then((res) => {
           console.log('current:' + JSON.stringify(res.data.data) + '!')
@@ -97,18 +100,37 @@ export default {
       if (this.idx < 0) {
         this.idx = 0
       }
+      this.vehicleImageId = 0
+      this.getBmyExampleVehicleImageId()
     },
     nextBmy() {
       this.idx += 1
       if (this.idx >= this.bmys.length) {
         this.idx = this.bmys.length - 1
       }
+      this.vehicleImageId = 0
+      this.getBmyExampleVehicleImageId()
     },
     prevImage() {
+      this.getBmyCurrentVehicleImageId(2)
     },
     chooseImage() {
+      const path = this.app_global.serverBase + 'admin/setBmyExampleVehicleImageId?vehicleImageId=' +
+            this.vehicleImageId + '&bmyId=' + this.bmys[this.idx].bmy_id
+      console.log('current: ' + path + '!')
+      axios.get(path)
+        .then((res) => {
+          console.log('current:' + JSON.stringify(res.data.data) + '!')
+          this.exampleVehicleImageId = this.vehicleImageId
+          this.exampleVehicleImageUrl = this.app_global.serverBase + 'displayVehicleImage/' + this.exampleVehicleImageId
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
     },
     nextImage() {
+      this.getBmyCurrentVehicleImageId(1)
     }
   }
 }
