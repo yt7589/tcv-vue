@@ -3,6 +3,7 @@
     <p>生成增量数据集</p>
     <p>负责人：<input v-model="workerId" type="text"></p>
     <button @click="createDeltaDs">生成</button>&nbsp;
+    <p>结果：{{ result }}</p>
   </div>
 </template>
 
@@ -12,7 +13,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      workerId: ''
+      workerId: '',
+      result: ''
     }
   },
   methods: {
@@ -22,6 +24,7 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log('get createDeltaDs response')
+          this.result = res.data.data.status
         })
         .catch((error) => {
           console.error(error)
